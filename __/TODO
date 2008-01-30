@@ -1,0 +1,16 @@
+write state change functions
+wire up state change functions to key/mouse/load events
+
+adapt to resize
+
+
+===done===
+only one pane showing?
+make quasi-mode stick when you open an app
+iframe doesn't load
+doc usage
+doc wiring
+hide logout?
+add all elements (DOM, CSS, display, opacity)
+size and position all elements
+
