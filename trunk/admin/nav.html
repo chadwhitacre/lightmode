@@ -14,10 +14,10 @@ raw = ""
 if environ['REQUEST_METHOD'] == 'POST':
     # Minimal safety: use a framework!
     body = environ['wsgi.input'].read(int(environ['CONTENT_LENGTH']))
-    val = body[len("nav="):]
+    val = body.decode('UTF-8')[len("nav="):]
     lines = urllib.unquote_plus(val).splitlines()
     raw = '\r\n'.join([x.strip() for x in lines if x])
-    open(FPATH, 'w+').write(raw)
+    open(FPATH, 'w+').write(raw.encode('UTF-8'))
     msg = "Changes saved." 
 else:
     raw = open(FPATH).read()
@@ -26,6 +26,7 @@ else:
 
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Modify Navigation</title>
         <style>
             body {font-family: sans-serif;}
