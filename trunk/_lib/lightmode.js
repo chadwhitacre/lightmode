@@ -15,13 +15,12 @@ if (!window.console || !console.firebug)
 /****************************************************************************/
 /* State change functions
 
-   There are four states (possible next states listed):
+   There are three states (possible next states listed):
 
     o ready -- the Ready indicator shows (overlay)
     o overlay -- this is the quasimode, showing available "manageables"
                  (ready, loading)
-    o loading -- manageable selected, iframe is loading (ready, loaded)
-    o loaded -- iframe is done loading (ready)
+    o app -- manageable selected, iframe is up (ready)
 
   */
 
@@ -30,6 +29,7 @@ OVERLAY = Object();
 APP = Object();
 
 STATE = null;
+
 
 function to_ready() {
     STATE = READY;
@@ -58,8 +58,9 @@ function to_app(url) {
     $('#lightmode-ready').hide();
     $('#lightmode-mask').show();
     $('#lightmode-panes').hide();
-    $('#lightmode-iframe').attr('src', url);
-    $('#lightmode-iframe').show();
+    $('#lightmode-iframe').show(100, function() {
+      window.frames['lightmode-iframe'].location.href = url; // cross-browser
+    });
     $('#lightmode-close-on').hide();
     $('#lightmode-close-off').show();
 }
@@ -67,6 +68,42 @@ function to_app(url) {
 
 /****************************************************************************/
 /* Resize                                                                   */
+
+function resize_iframe() {
+    /* This is affected by scrolling, so we need to call it more often than 
+       on resize.
+      */
+
+    winH = $(window).height();
+    winW = $(window).width();
+    docH = $(document).height();
+    docW = $(document).width();
+    sclT = $(window).scrollTop();
+    sclL = $(window).scrollLeft();
+
+
+    // iframe
+    // ======
+
+    FPAD = 100;
+    $('#lightmode-iframe').css('width', (winW-FPAD)+'px');
+    $('#lightmode-iframe').css('height', (winH-FPAD)+'px');
+    $('#lightmode-iframe').css('top', sclT+(FPAD/2)+'px');
+    $('#lightmode-iframe').css('left', sclL+(FPAD/2)+'px');
+
+
+    // close
+    // =====
+
+    CTOP = (sclT+(FPAD/2)-25+2)+'px';
+    CLEFT = (sclL+winW-(FPAD/2)-100-12)+'px';
+    $('#lightmode-close-on').css('top', CTOP);
+    $('#lightmode-close-on').css('left', CLEFT);
+    $('#lightmode-close-off').css('top', CTOP);
+    $('#lightmode-close-off').css('left', CLEFT);
+
+}
+
 
 function resize() {
     /* This gets called on load and on window resize. It resizes all lightmode 
@@ -82,8 +119,17 @@ function resize() {
     // Ready
     // =====
 
-    $('#lightmode-ready').css('top', (winH-158)+'px');
+    $('#lightmode-ready').css('top', (winH-140-18-10)+'px');
     $('#lightmode-ready').css('left', '10px');
+    $('#lightmode-ready').mouseover(function() {
+        left = $('#lightmode-ready').css('left');
+        width = $('#lightmode-ready').width();
+        if (left == '10px') 
+            end = {top: 10, left: winW-width-10};
+        else
+            end = {top: winH-140-18-10, left: 10};
+        $('#lightmode-ready').animate(end, 'fast');
+    });
 
 
     // mask
@@ -96,9 +142,9 @@ function resize() {
     // panes
     // =====
    
-    $('.lightmode-pane').each(function (i, o) {
+    $('.lightmode-pane').each(function(i, o) {
         /* o is the original object, the .lightmode-pane that is actually in 
-           the HTML; i is the index in the array we are looping over (0-indexed).
+           the HTML; i is the index in the 0-indexed array we are looping over.
           */
      
         id = "lightmode-pane-overlay-" + (i+1);
@@ -109,42 +155,37 @@ function resize() {
         $("#"+id).css('left', $(o).position().left);
         $("#"+id).fadeTo(0, 0.5);
 
-        BORDER = 8;
-        $("#"+id+' a').height($(o).height() - BORDER);
-        $("#"+id+' a').width($(o).width() - BORDER);
+        BORDER = 5;
+        $("#"+id+' a').height($(o).height() - (BORDER*2));
+        $("#"+id+' a').width($(o).width() - (BORDER*2));
 
-        FONT_SIZE = 120;
-        PADTOP = ($(o).height() - FONT_SIZE - BORDER) / 2;
-        $("#"+id+' a span').css('padding-top', PADTOP+'px');
+
+        // Adapt font size to overlay size.
+        // ================================
+        // I didn't edge-test the font sizes; IE was throwing errors
+        // here when the font didn't fit, so if you get a weird IE error
+        // and track it down here, then check the edge cases. :^)
+
+        MIN_FONT_SIZE = 8;
+        MAX_FONT_SIZE = 120;
+
+        oH = $(o).height();
+        room_for_font = (oH - (BORDER*2)) / 2;
+        if (room_for_font < MIN_FONT_SIZE) {
+            $("#"+id+' a span').html('&nbsp;');
+        } else {
+            $("#"+id+' a span').html(i+1);
+
+            font_size = Math.min(room_for_font, MAX_FONT_SIZE);
+            $("#"+id+' a').css('font-size', font_size+'px');
+            
+            padtop = room_for_font - (font_size / 2);
+            $("#"+id+' a span').css('padding-top', padtop+'px');
+        }
 
     });
 
-
-    // iframe
-    // ======
-
-    FPAD = 100;
-    $('#lightmode-iframe').css('width', (winW-FPAD)+'px');
-    $('#lightmode-iframe').css('height', (winH-FPAD)+'px');
-    $('#lightmode-iframe').css('top', (FPAD/2)+'px');
-    $('#lightmode-iframe').css('left', (FPAD/2)+'px');
-
-    // close
-    // =====
-
-    CTOP = ((FPAD/2)-25+2)+'px';
-    CLEFT = (winW-(FPAD/2)-100-12)+'px';
-    $('#lightmode-close-on').css('top', CTOP);
-    $('#lightmode-close-on').css('left', CLEFT);
-    $('#lightmode-close-off').css('top', CTOP);
-    $('#lightmode-close-off').css('left', CLEFT);
-
-
-    // loading
-    // =======
-
-    $('#lightmode-loading').css('top', ((winH/2)-8)+'px');
-    $('#lightmode-loading').css('left', ((winW/2)-40)+'px');
+    resize_iframe();
 
 }
 
@@ -158,6 +199,7 @@ function main() {
        resize.
       */
 
+
     // Lightmode 
     // =========
     // All of our DOM elements go in here.
@@ -169,7 +211,7 @@ function main() {
     // =====
 
     $('<div id="lightmode-ready">Ready</div>').appendTo($('#lightmode'));
-    $('#lightmode-ready').fadeTo(2000, 0.25);
+    $('#lightmode-ready').fadeTo(1000, 0.25);
 
 
     // mask
@@ -183,7 +225,7 @@ function main() {
     // =====
  
     $('<div id="lightmode-panes">&nbsp;</div>').appendTo('#lightmode');
-    $('.lightmode-pane').each(function (i, o) {
+    $('.lightmode-pane').each(function(i, o) {
         /* o is the original object, the .lightmode-pane that is actually in 
            the HTML; i is the index in the array we are looping over (0-indexed).
           */
@@ -204,7 +246,7 @@ function main() {
             to_app($(o).attr('run'));
             return false;
         });
-   });
+    });
 
 
     // iframe
@@ -219,10 +261,11 @@ function main() {
     // =====
     // This is a rollover.
 
-    $( '<a id="lightmode-close-on" class="lightmode-close" href="">'
-     + '  <img src="/_lib/close-on.gif" /></a>').appendTo('#lightmode');
+    $( '<a id="lightmode-close-on" class="lightmode-close" '
+     + 'href="' + window.location.href + '">'
+     + '  <img src="_lib/close-on.gif" /></a>').appendTo('#lightmode');
     $( '<a id="lightmode-close-off" class="lightmode-close" href="">'
-     + '  <img src="/_lib/close-off.gif" /></a>').appendTo('#lightmode');
+     + '  <img src="_lib/close-off.gif" /></a>').appendTo('#lightmode');
 
     $('#lightmode-close-off').mouseover(function() {
         if (STATE == READY) return; // account for the moment after clicking
@@ -234,25 +277,16 @@ function main() {
         $('#lightmode-close-on').hide();
         $('#lightmode-close-off').show();
     });
-    $('#lightmode-close-on').click(function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        to_ready();
-        return false;
+    $('#lightmode-close-on').click(function() {
+        window.location.reload(); // doing this here because #frag breaks link
     });
-
-
-    // loading
-    // =======
-
-    $( '<img src="/_lib/loading.gif" ' 
-     + '     id="lightmode-loading" />').appendTo('#lightmode');
 
 
     // Get going
     // =========
 
-    //$("lightmode-iframe").attr('src', 'http://www.zetadev.com/');
+    $(window).resize(resize);
+    $(window).scroll(resize_iframe);
     resize();
     to_ready();
 
@@ -260,7 +294,9 @@ function main() {
 
 
 /****************************************************************************/
-/* Some event handlers (others are in main)                                 */
+/* Keyboard event handlers (mouse events are in main)                       */
+
+CLOSE_APP = false;
 
 $(document).keydown(function (e) {
     if (e.keyCode == 27) {
@@ -268,7 +304,8 @@ $(document).keydown(function (e) {
         e.preventDefault();
         if (STATE == READY) {
             to_overlay();
-        }
+            window.setTimeout(function(){CLOSE_APP = true;}, 5000);
+       }
     }
 });
 
@@ -277,23 +314,19 @@ $(document).keyup(function (e) {
         e.stopPropagation();
         e.preventDefault();
         if (STATE == OVERLAY) {
+            CLOSE_APP = false;
             to_ready();
-        } 
+        } else if ((STATE == APP) && CLOSE_APP) {
+            CLOSE_APP = false;
+            to_ready();            
+        }
     } 
-        
-});
-
-$(document).keypress(function (e) {
-    if (e.keyCode == 27) {
-        e.stopPropagation();
-        e.preventDefault();
-       // if (STATE == LOADING || STATE == LOADED) {
-       //     to_ready();
-       // }
-    }
 });
 
 
-$(window).resize(resize);
+
+/****************************************************************************/
+/* Book 'em, Danno!                                                         */
 
 $(document).ready(main);
+

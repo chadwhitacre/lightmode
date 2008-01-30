@@ -1,6 +1,18 @@
+#lightmode {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#lightmode-panes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+}
 .lightmode-pane-overlay {
     position: absolute;
-    z-index: 2000;
+    z-index: 2001;
     background: black;
     overflow: hidden;
     width: 100px;   /* overwritten in js */
@@ -11,12 +23,12 @@
 .lightmode-pane-overlay a {
     display: block;
     position: absolute;
-    z-index: 2001;
+    z-index: 2002;
     overflow: hidden;
-    font: bold 120px/120px Arial, sans-serif;
+    font: bold 120px/100% Arial, sans-serif; /* font-size overwritten */
     text-decoration: none;
     text-align: center;
-    border: 4px solid #E7E700;
+    border: 5px solid #E7E700;
     color: #E7E700;
     width: 100px;   /* overwritten in js */
     height: 100px;  /* overwritten in js */
@@ -38,16 +50,17 @@
     z-index: 1000;
     top: 0px;   /* overwritten in js */
     left: 0px;  /* overwritten in js */
-    line-height: 140px;
+    /*line-height: 140px;*/
     margin: 0;
     padding: 0;
+    cursor: default;
 }
 
 #lightmode-mask {
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 998;
-    top: 0;         /* overwritten in js */
-    left: 0;        /* overwritten in js */ 
     height: 400px;  /* overwritten in js */  
     width: 400px;   /* overwritten in js */
     background: #00A251;

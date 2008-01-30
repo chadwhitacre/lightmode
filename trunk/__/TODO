@@ -1,7 +1,6 @@
-write state change functions
-wire up state change functions to key/mouse/load events
-
-adapt to resize
+wire up two apps, nav and content
+wire up numbers in quasimode
+wire up arrows/enter in quasimode
 
 
 ===done===
@@ -13,4 +12,14 @@ doc wiring
 hide logout?
 add all elements (DOM, CSS, display, opacity)
 size and position all elements
-
+write state change functions
+wire up state change functions to key/mouse/load events
+adapt to resize
+get positioning right w/ header img
+move "Ready" out of the way
+iframe fixed to the top of the document
+scale numbers to size of pane
+error in IE
+iframe not loading in Safari?
+z-index problem in overlay in IE
+escape takes you back to Ready
