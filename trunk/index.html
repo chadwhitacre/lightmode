@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <script src="/_lib/jquery.js"></script>
+  <script src="/_lib/jquery.dimensions.js"></script>
+  <script src="/_lib/lightmode.js"></script>
+  <style>@import url('/_lib/lightmode.css');</style>
+
+  <style>
+    body {
+      font: normal 10pt/12pt Georgia, serif;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    h3 {
+      margin: 2em 0 1em;
+    }
+    h3.first {margin-top: 0;}
+    .pane {
+      float: left;
+      margin: 0 20px 0 0;
+      padding: 0;
+    }
+    .nav {
+      width: 180px;
+    }
+    .content {
+      width: 360px;
+    }
+    #footer {
+        border-top: 1px solid black;
+        font-family: sans-serif;
+        clear: both;
+        margin: 20px;
+        padding-top: 20px;
+        width: 540px;
+        text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Lightmode</h1>
+<h2>A web UI</h2>
+
+<div class="pane nav lightmode-pane"
+    run="/admin/nav.html">
+  <h3 class="first">Navigation</h3>
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+  </ul>
+</div>
+
+<div class="pane content lightmode-pane"
+     run="http://www.flickr.com/">
+
+  <a name="intro"></a>
+  <h3 class="first">Intro</h3>
+
+  <p>Lightmode is a user interface for websites. The idea is to display
+  information on a page like normal, but to add a <a
+  href="http://en.wikipedia.org/wiki/Quasimode">quasimode</a> that shows parts
+  of the page that can be manipulated. Choosing one of these parts pops up an
+  arbitrary web application in a 
+    <a href="http://en.wikipedia.org/wiki/Modal_window">modal window</a> 
+    (&agrave; la 
+    <a href="http://www.huddletogether.com/projects/lightbox/">Lightbox</a>), 
+  and when you're done
+  changing the info, you close the app.</p>
+
+  <h3>Usage</h3>
+
+  <p>Lightmode is enabled on this page, as the big green "Ready" at bottom 
+  left indicates. Here's how to test-drive it:</p>
+
+  <ul>
+    <li>Press and hold "Escape" to enter the Lightmode quasimode.</li>
+    <li>While in this quasimode, click a pane to launch an app to manage the 
+        info in that pane.</li>
+    <li>After you're done with the app, click "Close" or hit "Escape" again.</li>
+  </ul>
+
+  
+  <h3>Wiring</h3>
+  <p>Here's how to add Lightmode to a web page:</p>
+  
+  <ul>
+    <li>Include 
+        <a href="/_lib/jquery.js">jquery.js</a>, 
+        <a href="/_lib/jquery.dimensions.js">jquery.dimensions.js</a>, 
+        <a href="/_lib/lightmode.js">lightmode.js</a>,
+        and <a href="/_lib/lightmode.css">lightmode.css</a></li>
+    <li>Add the class "lightmode-pane" to any element that should get its own
+    overlay.</li>
+    <li>Also add a "run" attribute to each such element, set to the URL of the
+    app to load.</li>
+  </ul>
+  
+  <p>View source on this page to see an example.</p>
+  
+  
+  <h3>History &amp; Status</h3>
+
+  <p>I first met quasimodes in <a 
+      href="http://rchi.raskincenter.org/index.php?title=Archy_FAQ">Archy</a>. 
+  Then I met <a
+      href="http://humanized.com/">Humanized</a>, who are commercializing Archy 
+  under
+  the name <a href="http://humanized.com/products/">Enso</a>. I wrote Lightmode
+  after meeting them. I had been using Plone heavily (yes, it's a drug), and 
+  Lightmode was basically an experiment in applying quasimodes to a CMS.</p>
+
+  <p>Now, the first version of Lightmode was actually called Overlight, and I 
+  wrote it using MochiKit in August 2006. I decided to publish it in February 
+  2007 after talking to <a href="http://www.pagodacms.org/">these guys</a>. I 
+  rewrote it in January 2008 for Aza Raskin of Humanized/Mozilla, using 
+  jQuery.</a>
+
+  <p>Thanks to all these folks, but especially to Aza for motivating me to 
+  clean this up.</p>
+
+  <p>I'm not actually using Lightmode anywhere yet, but it's kind of neat, 
+  isn't it?</p>
+  
+  
+</div>
+
+<div id="footer">
+    Lightmode is &copy; 2008 by <a href="http://www.zetadev.com/">Chad
+        Whitacre</a>.<br />
+    You are free to use the 
+    <a href="/_lib/lightmode.js">js</a> and 
+    <a href="/_lib/lightmode.css">css</a> code under the 
+    <a href="http://opensource.org/licenses/mit-license.php">MIT</a> license.
+</div>
+
+</body>
+</html>
