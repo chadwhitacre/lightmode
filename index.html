@@ -1,4 +1,23 @@
-foo ='bar'
+import os
+
+import aspen
+import markdown
+
+def render_nav(path):
+    raw = open(path)
+    out = ['<ul>']
+    for line in raw:
+        href, text = line.split(None, 1)
+        out.append('<li><a href="%s">%s</a></li>' % (href, text))
+    out.append('</ul>')
+    return ''.join(out)
+
+
+
+content = open(os.path.join(aspen.paths.root, '__', 'var', 'content')).read()
+content = markdown.markdown(content)
+nav = render_nav(os.path.join(aspen.paths.root, '__', 'var', 'nav'))
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -94,87 +113,13 @@ foo ='bar'
 <div class="main">
     <div class="pane nav lightmode-pane"
       run="/admin/nav.html">
-    <h3 class="first">Navigation</h3>
-    <ul>
-      <li><a href="#intro">Intro</a></li>
-    </ul>
+    <h3>Navigation</h3>
+%(nav)s
   </div>
   
   <div class="pane content lightmode-pane"
        run="/admin/content.html">
-  
-    <a name="intro"></a>
-    <h3 class="first">Intro</h3>
-  
-    <p>Lightmode is a user interface for websites. The idea is to display
-    information on a page like normal, but to add a <a
-    href="http://en.wikipedia.org/wiki/Quasimode">quasimode</a> that shows parts
-    of the page that can be manipulated. Choosing one of these parts pops up an
-    arbitrary web application in a 
-      <a href="http://en.wikipedia.org/wiki/Modal_window">modal window</a> 
-      (&agrave; la 
-      <a href="http://www.huddletogether.com/projects/lightbox/">Lightbox</a>), 
-    and when you're done
-    changing the info, you close the app.</p>
-  
-    <h3>Usage</h3>
-  
-    <p>Lightmode is enabled on this page, as the big green "Ready" at 
-    in the corner indicates. Here's how to 
-    test-drive it:</p>
-  
-    <ul>
-      <li>Press and hold "Escape" to enter the Lightmode quasimode.</li>
-      <li>While in this quasimode, click a pane to launch an app to manage the 
-          info in that pane.</li>
-      <li>After you're done with the app, click "Close" or hit "Escape" again.</li>
-    </ul>
-  
-    
-    <h3>Wiring</h3>
-    <p>Here's how to add Lightmode to a web page:</p>
-    
-    <ul>
-      <li>Include 
-          <a href="_lib/jquery.js">jquery.js</a>, 
-          <a href="_lib/jquery.dimensions.js">jquery.dimensions.js</a>, 
-          <a href="_lib/lightmode.js">lightmode.js</a>,
-          and <a href="_lib/lightmode.css">lightmode.css</a></li>
-      <li>Add the class "lightmode-pane" to any element that should get its own
-      overlay.</li>
-      <li>Also add a "run" attribute to each such element, set to the URL of the
-      app to load.</li>
-    </ul>
-    
-    <p>View source on this page to see an example.</p>
-    
-    
-    <h3>History &amp; Status</h3>
-  
-    <p>I first encountered quasimodes in <a 
-        href="http://rchi.raskincenter.org/index.php?title=Archy_FAQ">Archy</a>. 
-    Then I met <a
-        href="http://humanized.com/">Humanized</a>, who are commercializing Archy 
-    under
-    the name <a href="http://humanized.com/products/">Enso</a>. I wrote Lightmode
-    after meeting them. I had been using <a href="http://www.plone.org/">Plone</a>
-    heavily (yes, it's a drug), and Lightmode was basically an experiment in 
-    applying quasimodes to a CMS.</p>
-  
-    <p>Now, the first version of Lightmode was actually called Overlight, and I 
-    wrote it using <a href="http://mochikit.com/">MochiKit</a> in August 2006.
-    I decided to publish it in February 2007 after talking to <a 
-        href="http://www.pagodacms.org/">these guys</a>. I 
-    rewrote it in January 2008 for Aza Raskin of Humanized/Mozilla, using 
-    <a href="http://jquery.com/">jQuery</a>.</a>
-  
-    <p>Thanks to all these folks, but especially to Aza for motivating me to 
-    clean this up.</p>
-  
-    <p>I'm not actually using Lightmode anywhere yet, but it's kind of neat, 
-    isn't it?</p>
-    
-    
+%(content)s 
   </div>
 </div> <!-- main -->
 

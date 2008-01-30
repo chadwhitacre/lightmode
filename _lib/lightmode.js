@@ -296,7 +296,8 @@ function main() {
 /****************************************************************************/
 /* Keyboard event handlers (mouse events are in main)                       */
 
-CLOSE_APP = false;
+SUPPRESS_OVERLAY = false;
+SUPPRESS_READY = false;
 
 $(document).keydown(function (e) {
     if (e.keyCode == 27) {
@@ -304,8 +305,7 @@ $(document).keydown(function (e) {
         e.preventDefault();
         if (STATE == READY) {
             to_overlay();
-            window.setTimeout(function(){CLOSE_APP = true;}, 5000);
-       }
+        }
     }
 });
 
@@ -314,11 +314,7 @@ $(document).keyup(function (e) {
         e.stopPropagation();
         e.preventDefault();
         if (STATE == OVERLAY) {
-            CLOSE_APP = false;
             to_ready();
-        } else if ((STATE == APP) && CLOSE_APP) {
-            CLOSE_APP = false;
-            to_ready();            
         }
     } 
 });
