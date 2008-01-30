@@ -1,6 +1,6 @@
-wire up two apps, nav and content
 wire up numbers in quasimode
 wire up arrows/enter in quasimode
+once in app mode, Ready should be a quasimode on <Esc> so you can refer to the page
 
 
 ===done===
@@ -23,3 +23,4 @@ error in IE
 iframe not loading in Safari?
 z-index problem in overlay in IE
 escape takes you back to Ready
+wire up two apps, nav and content

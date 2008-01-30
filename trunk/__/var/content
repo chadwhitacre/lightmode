@@ -1,0 +1,41 @@
+<a name="intro"></a>
+### Intro
+
+Lightmode is a user interface for websites. The idea is to display information on a page like normal, but to add a [quasimode](http://en.wikipedia.org/wiki/Quasimode) that shows parts of the page that can be manipulated. Choosing one of these parts pops up an arbitrary web application in a [modal window](http://en.wikipedia.org/wiki/Modal_window) (à la [Lightbox](http://www.huddletogether.com/projects/lightbox/)), and when you're done changing the info, you close the app.</p>
+
+
+<a name="usage"></a>
+### Usage
+
+Lightmode is enabled on this page, as the big green "Ready" at in the corner indicates. Here's how to test-drive it:
+
+ * Press and hold "Escape" to enter the Lightmode quasimode.</li>
+ * While in this quasimode, click a pane to launch an app to manage the info in that pane.
+ * After you're done with the app, click "Close" or hit "Escape" again.
+
+
+<a name="wiring"></a>
+### Wiring ###
+
+Here's how to add Lightmode to a web page:
+
+  * Include [jquery.js](_lib/jquery.js), [jquery.dimensions.js](_lib/jquery.dimensions.js), [lightmode.js](_lib/lightmode.js), and [lightmode.css](_lib/lightmode.css)
+  * Add the class "lightmode-pane" to any element that should get its own overlay.
+  * Also add a "run" attribute to each such element, set to the URL of the app to load.
+
+View source on this page to see an example.
+
+
+<a name="history-status"></a>
+### History & Status ###
+
+I first encountered quasimodes in [Archy](http://rchi.raskincenter.org/index.php?title=Archy_FAQ).
+Then I met [Humanized](http://humanized.com/), who are commercializing Archy
+under the name [Enso](http://humanized.com/products/). I wrote Lightmode
+after meeting them. I had been using [Plone](http://www.plone.org/) heavily (yes, it's a drug), and Lightmode was basically an experiment in applying quasimodes to a CMS.
+
+Now, the first version of Lightmode was actually called Overlight, and I wrote it using [MochiKit](http://mochikit.com/) in August 2006. I decided to publish it in February 2007 after talking to [these guys](http://www.pagodacms.org/). I rewrote it in January 2008 for Aza Raskin of Humanized/Mozilla, using [jQuery](http://jquery.com/).
+
+Thanks to all these folks, but especially to Aza for motivating me to clean this up.
+
+I'm not actually using Lightmode anywhere yet, but it's kind of neat, isn't it?
