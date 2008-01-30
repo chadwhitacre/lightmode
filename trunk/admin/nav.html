@@ -1,0 +1,47 @@
+import os
+import urllib
+
+import aspen
+
+FPATH = os.path.join(aspen.paths.root, '__', 'var', 'nav')
+
+
+
+
+msg = ""
+raw = ""
+
+if environ['REQUEST_METHOD'] == 'POST':
+    # Minimal safety: use a framework!
+    body = environ['wsgi.input'].read(int(environ['CONTENT_LENGTH']))
+    val = body[len("nav="):]
+    lines = urllib.unquote_plus(val).splitlines()
+    raw = '\r\n'.join([x.strip() for x in lines if x])
+    open(FPATH, 'w+').write(raw)
+    msg = "Changes saved." 
+else:
+    raw = open(FPATH).read()
+
+
+
+<html>
+    <head>
+        <title>Modify Navigation</title>
+        <style>
+            body {font-family: sans-serif;}
+        </style>
+    </head>
+    <body>
+        <h1>Modify Navigation</h1>
+        <p><i>%(msg)s</i></p>
+        <p>
+            <b>Format:</b>
+            <i>href</i>&lt;whitespace&gt;<i>link text</i>&lt;newline&gt;
+        </p> 
+        <form action="/admin/nav.html" method="POST">
+            <input type="submit" value="Save changes." /><br />
+            <textarea name="nav" cols="80" rows="20">%(raw)s</textarea><br />
+            <input type="submit" value="Save changes." />
+        </form>
+    </body>
+</html>
