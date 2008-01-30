@@ -1,7 +1,12 @@
 <a name="intro"></a>
 ### Intro
 
-Lightmode is a user interface for websites. The idea is to display information on a page like normal, but to add a [quasimode](http://en.wikipedia.org/wiki/Quasimode) that shows parts of the page that can be manipulated. Choosing one of these parts pops up an arbitrary web application in a [modal window](http://en.wikipedia.org/wiki/Modal_window) (à la [Lightbox](http://www.huddletogether.com/projects/lightbox/)), and when you're done changing the info, you close the app.</p>
+Lightmode is a user interface for websites. The idea is to display
+information on a page like normal, but to add a
+[quasimode](http://en.wikipedia.org/wiki/Quasimode) that shows parts of the
+page that can be manipulated. Choosing one of these parts pops up an
+arbitrary web application in a [modal
+window](http://en.wikipedia.org/wiki/Modal_window) (&agrave; la [Lightbox](http://www.huddletogether.com/projects/lightbox/)), and when you're done changing the info, you close the app.</p>
 
 
 <a name="usage"></a>

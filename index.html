@@ -4,9 +4,9 @@ import aspen
 import markdown
 
 def render_nav(path):
-    raw = open(path)
+    raw = open(path).read().decode('UTF-8')
     out = ['<ul>']
-    for line in raw:
+    for line in raw.splitlines():
         href, text = line.split(None, 1)
         out.append('<li><a href="%s">%s</a></li>' % (href, text))
     out.append('</ul>')
@@ -15,7 +15,7 @@ def render_nav(path):
 
 
 content = open(os.path.join(aspen.paths.root, '__', 'var', 'content')).read()
-content = markdown.markdown(content)
+content = markdown.markdown(content.decode('UTF-8'))
 nav = render_nav(os.path.join(aspen.paths.root, '__', 'var', 'nav'))
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
