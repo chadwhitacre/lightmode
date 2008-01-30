@@ -1,0 +1,48 @@
+import os
+import urllib
+
+import aspen
+
+FPATH = os.path.join(aspen.paths.root, '__', 'var', 'content')
+
+
+
+
+msg = ""
+raw = ""
+
+if environ['REQUEST_METHOD'] == 'POST':
+    # Minimal safety: use a framework!
+    body = environ['wsgi.input'].read(int(environ['CONTENT_LENGTH']))
+    val = body[len("content="):]
+    lines = urllib.unquote_plus(val).splitlines()
+    raw = '\r\n'.join(lines)
+    open(FPATH, 'w+').write(raw)
+    msg = "Changes saved." 
+else:
+    raw = open(FPATH).read()
+
+
+
+<html>
+    <head>
+        <title>Modify Content</title>
+        <style>
+            body {font-family: sans-serif;}
+        </style>
+    </head>
+    <body>
+        <h1>Modify Content</h1>
+        <p><i>%(msg)s</i></p>
+        <p>
+            <b>Format:</b>
+            <a href="http://daringfireball.net/projects/markdown/" 
+               target="_blank">Markdown</a>
+        </p> 
+        <form action="/admin/content.html" method="POST">
+            <input type="submit" value="Save changes." /><br />
+            <textarea name="content" cols="80" rows="40">%(raw)s</textarea><br />
+            <input type="submit" value="Save changes." />
+        </form>
+    </body>
+</html>
