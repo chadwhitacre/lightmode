@@ -14,18 +14,18 @@ raw = ""
 if environ['REQUEST_METHOD'] == 'POST':
     # Minimal safety: use a framework!
     body = environ['wsgi.input'].read(int(environ['CONTENT_LENGTH']))
-    val = body[len("content="):]
-    lines = urllib.unquote_plus(val).splitlines()
-    raw = '\r\n'.join(lines)
-    open(FPATH, 'w+').write(raw)
+    val = body.decode('UTF-8')[len("content="):]
+    raw = '\r\n'.join(urllib.unquote_plus(val).splitlines())
+    open(FPATH, 'w+').write(raw.encode('UTF-8'))
     msg = "Changes saved." 
 else:
-    raw = open(FPATH).read()
+    raw = open(FPATH).read().decode('UTF-8')
 
 
 
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Modify Content</title>
         <style>
             body {font-family: sans-serif;}
