@@ -6,6 +6,7 @@ import aspen
 FPATH = os.path.join(aspen.paths.root, '__', 'var', 'content')
 
 
+urchin = open(os.path.join(aspen.paths.root, '__', 'var', 'urchin')).read()
 
 
 msg = ""
@@ -27,6 +28,7 @@ else:
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Modify Content</title>
+%(urchin)s
         <style>
             body {font-family: sans-serif;}
         </style>

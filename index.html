@@ -12,6 +12,7 @@ def render_nav(path):
     out.append('</ul>')
     return ''.join(out)
 
+urchin = open(os.path.join(aspen.paths.root, '__', 'var', 'urchin')).read()
 
 
 content = open(os.path.join(aspen.paths.root, '__', 'var', 'content')).read()
@@ -28,6 +29,7 @@ nav = render_nav(os.path.join(aspen.paths.root, '__', 'var', 'nav'))
   <script src="_lib/jquery.js"></script>
   <script src="_lib/jquery.dimensions.js"></script>
   <script src="_lib/lightmode.js"></script>
+%(urchin)s
   <style>@import url('_lib/lightmode.css');</style>
 
   <style>
