@@ -15,8 +15,8 @@ def render_nav(path):
 urchin = open(os.path.join(aspen.paths.root, '__', 'var', 'urchin')).read()
 
 
-content = open(os.path.join(aspen.paths.root, '__', 'var', 'content')).read()
-content = markdown.markdown(content.decode('UTF-8'))
+fp = open(os.path.join(aspen.paths.root, '__', 'var', 'content'))
+content = fp.read().decode('UTF-8')
 nav = render_nav(os.path.join(aspen.paths.root, '__', 'var', 'nav'))
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 

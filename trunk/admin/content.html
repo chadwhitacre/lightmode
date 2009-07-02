@@ -22,7 +22,6 @@ if environ['REQUEST_METHOD'] == 'POST':
 else:
     raw = open(FPATH).read().decode('UTF-8')
 
-
 
 <html>
     <head>
@@ -30,21 +29,29 @@ else:
         <title>Modify Content</title>
 %(urchin)s
         <style>
-            body {font-family: sans-serif;}
+            body {
+                font-family: sans-serif;
+            }
+            .wym_iframe IFRAME {
+                height: 70%% ! important;
+            }
         </style>
+        <script src="/_lib/wymeditor/jquery/jquery.js"></script>
+        <script src="/_lib/wymeditor/wymeditor/jquery.wymeditor.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.wymeditor').wymeditor();
+            });
+        </script>
     </head>
     <body>
         <h1>Modify Content</h1>
         <p><i>%(msg)s</i></p>
-        <p>
-            <b>Format:</b>
-            <a href="http://daringfireball.net/projects/markdown/" 
-               target="_blank">Markdown</a>
-        </p> 
         <form action="/admin/content.html" method="POST">
-            <input type="submit" value="Save changes." /><br />
-            <textarea name="content" cols="80" rows="40">%(raw)s</textarea><br />
-            <input type="submit" value="Save changes." />
+            <input type="submit" value="Save changes." class="wymupdate" />
+            <br />
+            <textarea name="content" class="wymeditor">%(raw)s</textarea>
+            <input type="submit" value="Save changes." class="wymupdate" />
         </form>
     </body>
 </html>
